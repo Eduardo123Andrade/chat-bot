@@ -1,6 +1,5 @@
 "use client";
-import { useChat } from "ai/react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Message, useChat } from "ai/react";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -12,12 +11,36 @@ import {
 } from "./ui/card";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
+import { ChatAvatar } from "./avatar/ChatAvatar";
 
-interface Message {
-  id: string;
-  content: string;
-  role: "system" | "user" | "assistant" | "function";
-}
+// const messages: Message[] = [
+//   {
+//     id: "1",
+//     role: "user",
+//     content: "Qual sua opinião sobre JS?",
+//   },
+//   {
+//     id: "2",
+//     role: "system",
+//     content:
+//       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum recusandae provident beatae, modi voluptates facilis cum non magni id cupiditate. Veritatis amet dolor qui consequuntur praesentium quaerat expedita itaque! Hic. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas doloribus corrupti perferendis ducimus consequuntur impedit ab! Aliquid blanditiis enim accusantium accusamus nulla rerum maxime sunt sapiente repellat! Illum, provident et? Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente optio ducimus deserunt exercitationem nostrum porro consectetur, iste earum incidunt, quisquam excepturi accusantium, adipisci laboriosam ipsa totam aliquid nisi? Hic, nihil? Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, provident eius quos quo, quaerat officia at aliquid asperiores debitis dignissimos, vel deserunt iusto maiores rerum error dicta accusamus reiciendis distinctio! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laudantium suscipit doloremque assumenda magni, vitae perferendis! Accusamus aperiam incidunt facere similique a placeat quas tempora, excepturi deleniti cupiditate velit numquam officia? Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum sunt animi ducimus in, rerum odit provident illum enim reprehenderit atque quo nisi voluptatum dolores est culpa, dolor ut architecto voluptates!",
+//   },
+// ];
+
+const renderMessage = (message: Message) => {
+  return (
+    <div key={message.id} className="flex gap-3 mb-4">
+      <ChatAvatar role={message.role} />
+
+      <p className="leading-relaxed">
+        <span className="block font-bold to-slate-700">
+          {message.role === "user" ? "User" : "Wolf bot"}
+        </span>
+        {message.content}
+      </p>
+    </div>
+  );
+};
 
 export const Chat = () => {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
@@ -33,31 +56,7 @@ export const Chat = () => {
 
       <CardContent>
         <ScrollArea className="h-[640px] w-full">
-          {messages.map((message) => {
-            return (
-              <div key={message.id} className="flex gap-3 mb-4">
-                {message.role === "user" && (
-                  <Avatar>
-                    <AvatarFallback>EA</AvatarFallback>
-                    <AvatarImage src="https://github.com/eduardo123andrade.png" />
-                  </Avatar>
-                )}
-
-                {message.role === "system" && (
-                  <Avatar>
-                    <AvatarFallback>WB</AvatarFallback>
-                    <AvatarImage src="https://i.natgeofe.com/k/093c14b4-978e-41f7-b1aa-3aff5d1c608a/gray-wolf-closeup_3x4.jpg" />
-                  </Avatar>
-                )}
-                <p className="leading-relaxed">
-                  <span className="block font-bold to-slate-700">
-                    {message.role === "user" ? "User" : "Wolf bot"}
-                  </span>
-                  {message.content}
-                </p>
-              </div>
-            );
-          })}
+          {messages.map(renderMessage)}
         </ScrollArea>
       </CardContent>
 
