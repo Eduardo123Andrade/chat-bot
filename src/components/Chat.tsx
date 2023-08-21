@@ -13,6 +13,12 @@ import {
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 
+interface Message {
+  id: string;
+  content: string;
+  role: "system" | "user" | "assistant" | "function";
+}
+
 export const Chat = () => {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "/api/chat", //Default
@@ -26,10 +32,10 @@ export const Chat = () => {
       </CardHeader>
 
       <CardContent>
-        <ScrollArea className="h-[640px] w-full space-y-4">
+        <ScrollArea className="h-[640px] w-full">
           {messages.map((message) => {
             return (
-              <div key={message.id} className="flex gap-3">
+              <div key={message.id} className="flex gap-3 mb-4">
                 {message.role === "user" && (
                   <Avatar>
                     <AvatarFallback>EA</AvatarFallback>
